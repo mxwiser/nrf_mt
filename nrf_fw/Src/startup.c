@@ -15,7 +15,7 @@
 
 //// data array to be sent
 //uint8_t tx_data[NRF24L01P_PAYLOAD_LENGTH] = {0, 1, 2, 3, 4, 5, 6, 7};
-//uint8_t ack_rx_data[NRF24L01P_PAYLOAD_LENGTH];
+//uint8_t ack_rx_data[8];
 //// for rx interrupt
 //void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin);
 //
@@ -45,14 +45,14 @@
 
 
 // data array to be read
-uint8_t rx_data[NRF24L01P_PAYLOAD_LENGTH] = { 0, };
+uint8_t rx_data[8] = { 0, };
 
 // for tx interrupt
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin);
 
 void create(void)
 {
-    nrf24l01p_rx_init(2500, _1Mbps);
+    nrf24l01p_rx_init(2500, _2Mbps);
 
     while (1)
     {
@@ -65,6 +65,6 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 {
     if(GPIO_Pin == NRF24L01P_IRQ_PIN_NUMBER){
         nrf24l01p_rx_receive(rx_data); // read data when data ready flag is set
-        CDC_Transmit_FS(&rx_data[0],1);
+
     }
 }

@@ -9,7 +9,7 @@
 
 #include "libary/nrf24l01p.h"
 
-
+#include "usbd_cdc_if.h"
 
 
 static void cs_high()
@@ -112,10 +112,10 @@ void nrf24l01p_tx_init(channel MHz, air_data_rate bps)
     nrf24l01p_auto_retransmit_delay(250);
     ce_high();
 }
-
+uint8_t ddd[8]={0x05};
 void nrf24l01p_rx_receive(uint8_t* rx_payload)
 {
-    uint8_t ddd[8]={0x05};
+
     uint8_t sta = nrf24l01p_get_status();
 
     if (sta&TX_OK){
@@ -128,7 +128,7 @@ void nrf24l01p_rx_receive(uint8_t* rx_payload)
 
         nrf24l01p_read_rx_fifo(rx_payload);
         nrf24l01p_flush_rx_fifo();
-        write_register_arr(NRF24L01P_CMD_W_ACK_PAYLOAD,ddd,8);
+        write_register_arr(NRF24L01P_CMD_W_ACK_PAYLOAD,ddd,NRF24L01P_PAYLOAD_LENGTH);
         nrf24l01p_clear_rx_dr();
     }
 
@@ -231,7 +231,6 @@ uint8_t nrf24l01p_read_rx_fifo(uint8_t* rx_payload)
     HAL_SPI_TransmitReceive(NRF24L01P_SPI, &command, &status, 1, 2000);
     HAL_SPI_Receive(NRF24L01P_SPI, rx_payload, NRF24L01P_PAYLOAD_LENGTH, 2000);
     cs_high();
-
     return status;
 }
 
