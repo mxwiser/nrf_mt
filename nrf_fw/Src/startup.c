@@ -45,7 +45,7 @@
 
 
 // data array to be read
-uint8_t rx_data[8] = { 0, };
+uint8_t rx_data[NRF24L01P_PAYLOAD_LENGTH] = { 0, };
 
 // for tx interrupt
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin);

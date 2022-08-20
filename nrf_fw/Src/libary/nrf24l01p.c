@@ -9,7 +9,6 @@
 
 #include "libary/nrf24l01p.h"
 
-#include "usbd_cdc_if.h"
 
 
 static void cs_high()
