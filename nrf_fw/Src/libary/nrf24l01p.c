@@ -112,7 +112,13 @@ void nrf24l01p_tx_init(channel MHz, air_data_rate bps)
     ce_high();
 }
 uint8_t ddd[8]={0x05};
-void nrf24l01p_rx_receive(uint8_t* rx_payload)
+
+
+
+typedef void (*OnAck)(void);
+
+
+void nrf24l01p_rx_receive(uint8_t* rx_payload,uint8_t* ack_payload,OnAck onack)
 {
 
     uint8_t sta = nrf24l01p_get_status();
@@ -127,7 +133,8 @@ void nrf24l01p_rx_receive(uint8_t* rx_payload)
 
         nrf24l01p_read_rx_fifo(rx_payload);
         nrf24l01p_flush_rx_fifo();
-        write_register_arr(NRF24L01P_CMD_W_ACK_PAYLOAD,ddd,NRF24L01P_PAYLOAD_LENGTH);
+        onack();
+        write_register_arr(NRF24L01P_CMD_W_ACK_PAYLOAD,ack_payload,NRF24L01P_PAYLOAD_LENGTH);
         nrf24l01p_clear_rx_dr();
     }
 

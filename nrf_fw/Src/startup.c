@@ -46,7 +46,7 @@
 
 // data array to be read
 uint8_t rx_data[NRF24L01P_PAYLOAD_LENGTH] = { 0, };
-
+uint8_t ack_data[NRF24L01P_PAYLOAD_LENGTH] = { 0, };
 // for tx interrupt
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin);
 
@@ -60,11 +60,12 @@ void create(void)
         HAL_Delay(100);
     }
 }
+void myOnAckIRQ(){
 
+}
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 {
     if(GPIO_Pin == NRF24L01P_IRQ_PIN_NUMBER){
-        nrf24l01p_rx_receive(rx_data); // read data when data ready flag is set
-
+        nrf24l01p_rx_receive(rx_data,ack_data,myOnAckIRQ); // read data when data ready flag is set
     }
 }

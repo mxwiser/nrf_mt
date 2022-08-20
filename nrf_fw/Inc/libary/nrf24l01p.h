@@ -65,7 +65,7 @@ typedef enum
 void nrf24l01p_rx_init(channel MHz, air_data_rate bps);
 void nrf24l01p_tx_init(channel MHz, air_data_rate bps);
 
-void nrf24l01p_rx_receive(uint8_t* rx_payload);
+void nrf24l01p_rx_receive(uint8_t* rx_payload,uint8_t* ack_payload,void (*OnAckIRQ)(void));
 void nrf24l01p_tx_transmit(uint8_t* tx_payload);
 
 // Check tx_ds or max_rt
