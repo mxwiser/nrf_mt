@@ -67,7 +67,7 @@ static uint8_t write_register_arr(uint8_t reg, uint8_t* value,uint16_t size)
 
     cs_low();
     HAL_SPI_TransmitReceive(NRF24L01P_SPI, &command, &status, 1, 2000);
-    HAL_SPI_Transmit(NRF24L01P_SPI, value, 1, 2000);
+    HAL_SPI_Transmit(NRF24L01P_SPI, value, size, 2000);
     cs_high();
 
     return status;
@@ -187,6 +187,13 @@ void nrf24l01p_reset()
     write_register(NRF24L01P_REG_CONFIG, 0x08);
     write_register_arr(NRF24L01P_REG_TX_ADDR,tx_ack_address,5);
     write_register_arr(NRF24L01P_REG_RX_ADDR_P0,tx_ack_address,5);
+
+    tx_ack_address[0]=tx_ack_address[0]+1;
+    write_register_arr(NRF24L01P_REG_RX_ADDR_P1,tx_ack_address,5);
+
+    write_register(NRF24L01P_REG_RX_ADDR_P2,tx_ack_address[0]+2);
+
+
     //启用应答
     write_register(NRF24L01P_REG_EN_AA, 0x07);
     write_register(NRF24L01P_REG_EN_RXADDR, 0x07);
@@ -197,9 +204,9 @@ void nrf24l01p_reset()
     write_register(NRF24L01P_REG_RF_SETUP, 0x07);
     write_register(NRF24L01P_REG_STATUS, 0x7E);
 
-    //write_register(NRF24L01P_REG_RX_PW_P0,    NRF24L01P_PAYLOAD_LENGTH);
-    //write_register(NRF24L01P_REG_RX_PW_P1, NRF24L01P_PAYLOAD_LENGTH);
-    //write_register(NRF24L01P_REG_RX_PW_P2, NRF24L01P_PAYLOAD_LENGTH);
+    write_register(NRF24L01P_REG_RX_PW_P0,    NRF24L01P_PAYLOAD_LENGTH);
+    write_register(NRF24L01P_REG_RX_PW_P1, NRF24L01P_PAYLOAD_LENGTH);
+    write_register(NRF24L01P_REG_RX_PW_P2, NRF24L01P_PAYLOAD_LENGTH);
     //write_register(NRF24L01P_REG_RX_PW_P3, NRF24L01P_PAYLOAD_LENGTH);
     //write_register(NRF24L01P_REG_RX_PW_P4, NRF24L01P_PAYLOAD_LENGTH);
     //write_register(NRF24L01P_REG_RX_PW_P5, NRF24L01P_PAYLOAD_LENGTH);
