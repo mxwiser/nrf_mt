@@ -7,7 +7,6 @@
 //#include "usart.h"
 
 #include "spi.h"
-
 #include "libary/nrf24l01p.h"
 
 
