@@ -3,7 +3,7 @@
 //
 #include "startup.h"
 //#include "libary/at24c02/at24c02.h"
-#include "usbd_cdc_if.h"
+//#include "usbd_cdc_if.h"
 //#include "usart.h"
 
 #include "spi.h"
@@ -58,6 +58,7 @@ void create(void)
     {
         // Nothing to do
         HAL_Delay(100);
+
     }
 }
 void myOnAckIRQ(){
